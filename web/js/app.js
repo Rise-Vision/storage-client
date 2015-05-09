@@ -29,8 +29,6 @@ angular.module("risevision.common.config")
   var href = window.location.href;
   var fullscreen = (window === window.top) && (href.indexOf("selector-type") === -1);
 
-  console.log("storage app config invoked!", window.location.href);
-
   $provide.value("FULLSCREEN", fullscreen);
 
   if(href.indexOf("selector-type=multiple-file") !== -1) {

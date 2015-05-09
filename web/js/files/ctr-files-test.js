@@ -93,7 +93,7 @@ describe("FileListCtrl", function() {
 
         FileListCtrl = $controller("FileListCtrl", {
             $scope: scope, GAPIRequestService: GAPIRequestService,
-                FileListService: FileListService, $modal: modal });
+                FileListService: FileListService, $modal: modal, DownloadService: {} });
       }));
 
     afterEach(function() {

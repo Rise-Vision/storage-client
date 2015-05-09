@@ -1,4 +1,5 @@
 "use strict";
+
 function getService(serviceName) {
   var injectedService;
   inject([serviceName, function(serviceInstance) {
@@ -63,7 +64,7 @@ describe("Services: Download", function() {
     expect(dlSvc.filesDownloaded).to.equal(0);
   });
 
-  it("should download 2 files given two files and a folder", function() {
+  it("should download 2 files given two files", function() {
     var dlSvc = getService("DownloadService");
     var $timeout = getService("$timeout");
 
@@ -72,11 +73,9 @@ describe("Services: Download", function() {
       dlSvc.filesDownloaded++;
     };
 
-    dlSvc.downloadFiles([{name: "t1"},{name: "t2"},{name: "t1/"}]);
+    dlSvc.downloadFiles([{name: "t1"},{name: "t2"}]);
     $timeout.flush();
     expect(dlSvc.filesDownloaded).to.equal(1);
-    $timeout.flush();
-    expect(dlSvc.filesDownloaded).to.equal(2);
     $timeout.flush();
     expect(dlSvc.filesDownloaded).to.equal(2);
   });
