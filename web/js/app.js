@@ -29,6 +29,8 @@ angular.module("risevision.common.config")
   var href = window.location.href;
   var fullscreen = (window === window.top) && (href.indexOf("selector-type") === -1);
 
+  console.log("storage app config invoked!", window.location.href);
+
   $provide.value("FULLSCREEN", fullscreen);
 
   if(href.indexOf("selector-type=multiple-file") !== -1) {
@@ -59,11 +61,9 @@ angular.module("risevision.storage")
 }])
 .config(["$urlRouterProvider", "$stateProvider", "$locationProvider",
 function($urlRouterProvider, $stateProvider, $locationProvider) {
-  if(window.location.href.indexOf("modal.html") === -1) {
-    $locationProvider.html5Mode({
-      enabled: true
-    });
-  }
+  $locationProvider.html5Mode({
+    enabled: true
+  });
 
   if(window.location.href.indexOf("/files") === -1) {
     $urlRouterProvider.otherwise("/");

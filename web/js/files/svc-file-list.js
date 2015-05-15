@@ -85,6 +85,7 @@ function (LocalFiles, requestor, $stateParams, $rootScope, spinnerSvc, SELECTOR_
 
   svc.refreshFilesList = function () {
     var params = {companyId: $stateParams.companyId};
+
     if ($stateParams.folderPath) {
       params.folder = decodeURIComponent($stateParams.folderPath);
       svc.statusDetails.folder = params.folder;
