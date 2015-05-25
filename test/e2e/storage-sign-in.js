@@ -11,7 +11,7 @@ module.exports = function(driver, LOCALCLIENT, LOCALSERVER, USER, PASSWORD) {
   passwordLocator = {"id": "Passwd"},
   googleSignInLocator = {"id": "signIn"},
   localApproveLocator = {"id": "submit_approve_access"},
-  trashFileLocator = {"css": "a[title='Trash']"};
+  anyFolderLocator = {"css": "span.folder.ng-binding"};
 
   if (LOCALSERVER) {
     driver.get("localhost:8888/_ah/login");
@@ -44,5 +44,5 @@ module.exports = function(driver, LOCALCLIENT, LOCALSERVER, USER, PASSWORD) {
     driver.findElement(localApproveLocator).click();
   }
 
-  driver.wait(until.elementLocated(trashFileLocator), 25000, "files listed");
+  driver.wait(until.elementLocated(anyFolderLocator), 25000, "files listed");
 };
