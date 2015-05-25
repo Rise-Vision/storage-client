@@ -1,25 +1,21 @@
 /* global process */
 "use strict";
-var until = require("selenium-webdriver").until,
-openFileSync = require("fs").openSync,
+var openFileSync = require("fs").openSync,
 
 uploadFilePath = process.cwd() + "/package.json",
 HOME = process.env.HOME,
 downloadFilePath = HOME + "/e2e-downloads/storage-client/package.json",
 
 locators = {
-  "fileInputElement": {"id": "file"},
-  "fileRow": {"css": "a[title='package.json']"},
-  "fileCheckbox": {"css": "#filesTable tbody tr:first-child input"},
+  "fileInputElement": {"id": "upload-files"},
+  "fileRow": {"css": "tr.clickable-row td span.file"},
   "downloadButton": {"css": "i.fa-cloud-download"}
 };
 
 module.exports = function(driver) {
   driver.logMessage("locating file input element");
   driver.findElement(locators.fileInputElement).sendKeys(uploadFilePath);
-  driver.wait(until.elementLocated(locators.fileRow), 9000, "file upload");
-
-  driver.findAndClickWhenVisible(locators.fileCheckbox);
+  driver.findAndClickWhenVisible(locators.fileRow);
   driver.findAndClickWhenVisible(locators.downloadButton);
   driver.wait(function fileDownloadCheck() {
     try {
