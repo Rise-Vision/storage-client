@@ -75,6 +75,7 @@ var env = process.env.NODE_ENV || "dev",
       "web/js/fullscreen/ctr-fullscreen.js",
       "web/js/external/svc-core-client.js",
       "web/js/modal/ctr-modal.js",
+      "web/js/download/svc-file-retriever.js",
       "web/js/download/svc-download.js",
       "web/js/buttons/ctr-top-buttons.js",
       "web/js/buttons/ctr-files-buttons.js",
@@ -134,6 +135,10 @@ var env = process.env.NODE_ENV || "dev",
 
     iconFiles = [
       "web/*.ico"
+    ],
+
+    libFiles = [
+      "web/lib/**/*"
     ],
 
     dataFiles = [
@@ -226,6 +231,11 @@ gulp.task("css", ["clean", "sass"], function () {
     .pipe(gulp.dest("dist/css"));
 });
 
+gulp.task("lib", ["clean"], function() {
+  return gulp.src(libFiles)
+    .pipe(gulp.dest("dist/lib"));
+});
+
 
 /* Task: config
  * Copies configuration file in place based on the current
@@ -241,7 +251,7 @@ gulp.task("config", function() {
     .pipe(gulp.dest("./web/js/config"));
 });
 
-gulp.task("build", ["clean", "config", "html", "uglify", "view", "files", "img", "css", "fonts", "locales", "icons", "data"]);
+gulp.task("build", ["clean", "config", "html", "uglify", "view", "files", "img", "css", "fonts", "locales", "icons", "lib", "data"]);
 
 
 gulp.task("test", function() {

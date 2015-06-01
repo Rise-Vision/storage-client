@@ -44,6 +44,7 @@ function ($scope,$rootScope, $stateParams, $window, $modal, $log, $timeout, $fil
 
   $rootScope.$on("storage-client:company-id-changed", function(event, companyId) {
     bucketName = "risemedialibrary-" + companyId;
+    folderSelfLinkUrl = STORAGE_CLIENT_API + bucketName + "/o?prefix=";
   });
 
   $window.addEventListener("beforeunload", function(e) {
@@ -74,7 +75,7 @@ function ($scope,$rootScope, $stateParams, $window, $modal, $log, $timeout, $fil
   });
 
   $scope.isDisabledDownloadButton = function() {
-    return !($scope.filesDetails.checkedCount > 0 && $scope.filesDetails.folderCheckedCount === 0) || $scope.filesDetails.localFiles === true;
+    return ($scope.filesDetails.checkedCount === 0 && $scope.filesDetails.folderCheckedCount === 0) || $scope.filesDetails.localFiles === true;
   };
 
   $scope.isDisabledCopyUrlButton = function() {
@@ -98,9 +99,6 @@ function ($scope,$rootScope, $stateParams, $window, $modal, $log, $timeout, $fil
   };
 
   $scope.downloadButtonClick = function() {
-    listSvc.filesDetails.files.forEach(function(file) {
-      if (file.name.substr(-1) === "/") {file.isChecked = false;}
-    });
     downloadSvc.downloadFiles(getSelectedFiles(), bucketName, 100);
   };
 

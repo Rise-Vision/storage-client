@@ -5,11 +5,11 @@ angular.module("risevision.storage.files")
 ["$scope", "$stateParams", "$modal", "$log", "$location", "FileListService",
  "OAuthAuthorizationService", "GAPIRequestService", "OAuthStatusService",
  "$window", "STORAGE_FILE_URL", "STORAGE_CLIENT_API", "$state", "$translate",
- "FULLSCREEN", "SELECTOR_TYPE", "calloutClosingService", "filterFilter", "$timeout",
+ "FULLSCREEN", "SELECTOR_TYPE", "calloutClosingService", "filterFilter", "$timeout", "DownloadService",
 function ($scope, $stateParams, $modal, $log, $location, listSvc,
           OAuthAuthorizationService, requestSvc, OAuthStatusService,
           $window, STORAGE_FILE_URL, STORAGE_CLIENT_API, $state, $translate, FULLSCREEN, SELECTOR_TYPE,
-          calloutClosingService, filterFilter, $timeout) {
+          calloutClosingService, filterFilter, $timeout, DownloadService) {
   var bucketName = "risemedialibrary-" + $stateParams.companyId;
   var trashLabel;
   var lastClickTime = 0;
@@ -21,6 +21,7 @@ function ($scope, $stateParams, $modal, $log, $location, listSvc,
   $scope.bucketCreationStatus = {code: 202};
   $scope.currentDecodedFolder = $stateParams.folderPath ? 
                                 decodeURIComponent($stateParams.folderPath) : undefined;
+  $scope.activeFolderDownloads = DownloadService.activeFolderDownloads;
   $scope.storageFull = FULLSCREEN;
   $scope.selectorType = SELECTOR_TYPE;
   $scope.singleFileSelector = SELECTOR_TYPE === "single-file";
@@ -162,6 +163,10 @@ function ($scope, $stateParams, $modal, $log, $location, listSvc,
 
       $scope.filesDetails.checkedItemsCount += file.isChecked ? 1 : 0;
     }
+  };
+
+  $scope.cancelFolderDownload = function(folder)  {
+    DownloadService.cancelFolderDownload(folder);
   };
 
   $scope.fileIsCurrentFolder = function(file) {
