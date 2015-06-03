@@ -1,4 +1,26 @@
 <div ng-controller="FileListCtrl" id="list">
+
+<div class="container ng-scope" id="fileinspector_noFiles" ng-show="statusDetails.code!==202 && !filesDetails.bucketExists">
+<div class="file-empty-state">
+  <div class="product-graphic">
+    <svg-icon p="riseStorage"></svg-icon>
+  </div>
+  <p>You haven't added files yet! </p>
+  <br>
+  <span> Select 
+    <button type="button" class="btn btn-link" title="Upload" disabled="disabled">
+      <i class="fa fa-cloud-upload fa-2x"></i>
+    </button>
+    above to upload a file,<br>
+    or 
+    <button type="button" class="btn btn-link" title="Add Folder" disabled="disabled">
+      <svg-icon p="iconNewFolder"></svg-icon>
+    </button>
+    to create a folder.
+  </span>
+</div>
+</div>
+
 <div class="alert alert-danger" ng-show="statusDetails.code===403">
   <span translate="storage-client.not-authorized"></span>
 </div>
@@ -31,7 +53,7 @@
     </div>
   </div>
 </div>
-<div class="content-box" auto-size-file-list>
+<div class="content-box" ng-show="filesDetails.bucketExists" auto-size-file-list>
 <div class="content-box-body" ng-show="statusDetails.code!==202 && !isFileListVisible()">
   <p class="text-center text-muted">No Files</p>
 </div>

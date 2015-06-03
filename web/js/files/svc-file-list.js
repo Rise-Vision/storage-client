@@ -50,6 +50,9 @@ function (LocalFiles, requestor, $stateParams, $rootScope, spinnerSvc, SELECTOR_
     } else {
       svc.filesDetails.files.push(newFile);
     }
+
+    // Needed because file upload does not refresh the list with a server call
+    svc.filesDetails.bucketExists = true;
   };
 
   svc.getFileNameIndex = function(fileName) {
@@ -81,6 +84,10 @@ function (LocalFiles, requestor, $stateParams, $rootScope, spinnerSvc, SELECTOR_
         oldFiles.splice(i, 1);
       }
     }
+  };
+
+  svc.startTrial = function() {
+    return requestor.executeRequest("storage.startTrial", { companyId: $stateParams.companyId });
   };
 
   svc.refreshFilesList = function () {
@@ -135,6 +142,7 @@ function (LocalFiles, requestor, $stateParams, $rootScope, spinnerSvc, SELECTOR_
       var parentFolderFound = false;
 
       resp.files = resp.files || [];
+      resp.empty = resp.files.length === 0;
 
       for(var i = 0; i < resp.files.length; i++) {
         var file = resp.files[i];
@@ -152,6 +160,7 @@ function (LocalFiles, requestor, $stateParams, $rootScope, spinnerSvc, SELECTOR_
         resp.files.unshift({ name: parentFolder, currentFolder: true, size: "", updated: null });
       }
 
+      svc.filesDetails.bucketExists = resp.bucketExists;
       svc.filesDetails.files = resp.files || [];
       svc.statusDetails.code = resp.code;
 

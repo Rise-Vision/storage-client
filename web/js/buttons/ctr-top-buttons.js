@@ -15,7 +15,6 @@ function ($scope,$rootScope, $stateParams, $window, $modal, $log, $timeout, $fil
   $scope.fileListStatus = listSvc.statusDetails;
   $scope.statusDetails = { code: 200, message: "" };
   $scope.leavePageMessage = "";
-  $scope.showStoreModal = false;
 
   publicReadSvc.enablePublicRead($stateParams.companyId);
 

@@ -1,12 +1,14 @@
+<div ng-controller="SubscriptionStatusController" class="visible-xs">
+  <div id="subscription-status" subscription-status
+       product-id="{{productId}}" product-code="{{productCode}}" company-id="{{companyId}}"
+       ng-model="subscriptionStatus.result" show-store-modal="showStoreModal" expanded-format="true">
+  </div>
+</div>
+
 <div>
   <div class="app-header add-top">
     <div class="title-block">
       <h1 translate="storage-client.header"></h1>
-      <div ng-controller="SubscriptionStatusController" class="store-status-2">
-      <div id="subscription-status" subscription-status
-           product-id="{{productId}}" product-code="{{productCode}}" company-id="{{companyId}}"
-           ng-model="subscriptionStatus.result" show-store-modal="showStoreModal"></div>
-      </div>
     </div>
     <div class="global-actions" ng-controller="TopButtonsController">
       
@@ -37,19 +39,24 @@
   </div>
 </div>
 
-<div>
+<div ng-controller="SubscriptionStatusController" class="hidden-xs">
+  <div id="subscription-status" subscription-status
+       product-id="{{productId}}" product-code="{{productCode}}" company-id="{{companyId}}"
+       ng-model="subscriptionStatus.result" show-store-modal="showStoreModal" expanded-format="true">
+  </div>
+</div>
+
+<div ng-show="filesDetails.bucketExists">
   <div>
     <div class="input-group">
       <span class="input-group-addon"><i class="fa fa-search"></i></span>
       <input type="text" ng-model="$parent.query" class="form-control" placeholder="Search for files or folders">
     </div>
-  <div>
+  </div>
   
   <div ng-controller="FilesButtonsController">
   	<div id="files-toolbar" ng-hide="fileListStatus.code === 404">
   		<div class="toolbar">
-
-
   			<div class="icon-nav">
           <span ng-show="filesDetails.checkedItemsCount > 0">
             <span translate="storage-client.selected-items" translate-values="{ count: filesDetails.checkedItemsCount }"></span>
@@ -70,6 +77,7 @@
   				<button type="button" class="btn btn-link" title="Delete"  ng-click="deleteButtonClick()" ng-show="isTrashFolder()" ng-disabled="isDisabledDeleteButton()">
             <i class="fa fa-trash-o fa-2x" ng-class="{ 'icon-gray': isDisabledDeleteButton() }"></i>
           </button>
+        </div>
       </div>
   	</div>
 
