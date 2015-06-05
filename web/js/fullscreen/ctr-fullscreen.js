@@ -9,15 +9,7 @@ angular.module("risevision.storage.fullscreen", ["risevision.storage.common", "r
 
   if(FULLSCREEN) {
     $scope.userState = userState;
-    $scope.navOptions = [{
-      title: "Platform",
-      link: "http://rva.risevision.com/",
-      target: "_blank"
-    }, {
-      title: "Help",
-      link: "http://help.risevision.com/#/user/storage/what-is-storage",
-      target: "_blank"
-    }];
+    $scope.navOptions = [];
   
     $scope.isCollapsed = true;
     
@@ -42,16 +34,6 @@ angular.module("risevision.storage.fullscreen", ["risevision.storage.common", "r
       }, 
       function (companyId) {
         if(companyId) {
-          $scope.navOptions = [{
-            title: "Platform",
-            link: "http://rva.risevision.com/",
-            target: "_blank"
-          }, {
-            title: "Help",
-            link: "http://help.risevision.com/#/user/storage/what-is-storage",
-            target: "_blank"
-          }];
-  
           var loc = window.location.href;
           var filesPath = loc.match(/.*\/files\/.{36}\/(.*)/);
   
