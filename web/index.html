@@ -119,9 +119,16 @@
               <button type="button" class="close" data-dismiss="modal" ng-click="closeButtonClick()">
                 <i class="fa fa-times"></i>
               </button>
+              <div style="clear: both" class="visible-xs"></div>
+              <div ng-controller="SubscriptionStatusController" class="visible-xs">
+                <div id="subscription-status" subscription-status
+                     product-id="{{productId}}" product-code="{{productCode}}" company-id="{{companyId}}"
+                     ng-model="subscriptionStatus.result" show-store-modal="showStoreModal" expanded-format="true">
+                </div>
+              </div>
               <h3 class="modal-title" update-title="" translate="storage-client.select-{{SELECTOR_TYPE}}"></h3>
               <div class="selector-header">
-                <div class="icon-nav pull-right" ng-hide="activeSearch">
+                <div class="icon-nav pull-right" ng-hide="activeSearch || trialAvailable">
                   <button class="btn btn-link btn-lg" ng-hide="statusDetails.code!==200 || fileListStatus.code===404" ng-click="newFolderButtonClick('md')" ng-disabled="isTrashFolder()">
                     <svg-icon p="iconNewFolder"></svg-icon>
                   </button>
@@ -138,27 +145,31 @@
                 <div class="description" ng-hide="activeSearch">
                   <p><strong>{{company.name}}</strong></p>
                   <p><a href="/files/{{company.id}}" target="_blank" translate="storage-client.open-in-storage-app"></a></p>
-                  <div ng-controller="SubscriptionStatusController" class="store-status-2">
-                    <div id="subscription-status" subscription-status
-                         product-id="{{productId}}" product-code="{{productCode}}" company-id="{{companyId}}"
-                         ng-model="subscriptionStatus.result" show-store-modal="showStoreModal">
-                    </div>
-                  </div>
                 </div>
         
-                <div class="icon-nav ng-hide" ng-show="activeSearch">
+                <div class="icon-nav ng-hide" ng-show="activeSearch && !trialAvailable">
                   <div class="input-group custom-addon">
                     <input id="selectorQuery" ng-model="query" type="text" class="form-control" placeholder="Search files or folders">
                     <span ng-click="hideSelectorFileSearch()" class="input-group-addon clickable"><i class="fa fa-times"></i></span>
                   </div>
                 </div>
               </div>
+
+              <div ng-controller="SubscriptionStatusController" class="hidden-xs">
+                <div id="subscription-status" subscription-status
+                     product-id="{{productId}}" product-code="{{productCode}}" company-id="{{companyId}}"
+                     ng-model="subscriptionStatus.result" show-store-modal="showStoreModal" expanded-format="true">
+                </div>
+              </div>
             </div>
-        
+            
             <!--Body content-->
-            <div class="modal-body" ui-view></div>
+            <div class="modal-body" ui-view ng-show="!trialAvailable"></div>
+            <div class="modal-body" ng-show="trialAvailable">
+              <ng-include src="'partials/start-trial.html'" ng-show="trialAvailable"></ng-include>
+            </div>
       
-            <div class="modal-footer" ng-controller="FilesButtonsController" ng-show="multipleFileSelector">
+            <div class="modal-footer" ng-controller="FilesButtonsController" ng-show="multipleFileSelector && !trialAvailable">
               <button type="button" title="select" class="btn btn-primary" ng-click="selectButtonClick()" ng-disabled="filesDetails.checkedCount < 1 && filesDetails.folderCheckedCount < 1">
                 <span translate="common.select"></span> <span class="fa fa-check icon-right"></span>
               </button>
@@ -168,7 +179,7 @@
             </div>
           </div>
         </div>
-      
+        
         <div>
           <span us-spinner="{ radius: 24, width: 8, length: 16 }" spinner-key="spn-storage-main"></span>
         </div>
@@ -184,7 +195,7 @@
         </common-header>
 
         <div class="storage-selector-iframe-full">
-          <div class="container" ng-show="!userState.isLoggedIn() || currentState">
+          <div class="container" ng-show="currentState">
             <div>&nbsp;</div>
             <div class="notifications alert alert-info alert-dismissable">
               <span id="msg-not-authenticated" ng-show="!userState.isLoggedIn()">
@@ -199,12 +210,14 @@
             </div>
           </div>
           
-          <div class="storage-modal" ng-show="userSignedIn">
+          <div class="storage-modal" ng-show="userSignedIn && !trialAvailable">
             <div class="container" ng-controller="modalContainerController" ng-click="closeThrottleNotice()">
               <ng-include src="'partials/header-fullscreen.html'"></ng-include>
               <div ui-view></div>
             </div>
           </div>
+
+          <ng-include src="'partials/start-trial.html'" ng-show="!userSignedIn || trialAvailable"></ng-include>
         </div>
 
         <div>

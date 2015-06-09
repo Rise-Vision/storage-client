@@ -78,6 +78,10 @@ function ($scope, $stateParams, $modal, $log, $location, listSvc,
 		return $stateParams.folderPath === "--TRASH--/";
 	};
 
+  $scope.isRootFolder = function(){
+    return !$stateParams.folderPath || $stateParams.folderPath === "/";
+  };
+
   $scope.login = function() {
     OAuthAuthorizationService.authorize().then(function() {
       $scope.isAuthed = true;

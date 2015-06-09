@@ -9,7 +9,7 @@ describe("FullScreenController", function() {
         scope = $rootScope.$new();
 
         FullScreenController = $controller("FullScreenController"
-            ,{ $scope: scope, userState: {}, usSpinnerService: {} });
+            ,{ $scope: scope, userState: {}, usSpinnerService: {}, FileListService: {} });
     }));
 
     it("should be defined", function() {

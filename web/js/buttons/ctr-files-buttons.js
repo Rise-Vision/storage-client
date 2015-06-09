@@ -34,7 +34,6 @@ function ($scope,$rootScope, $stateParams, $window, $modal, $log, $timeout, $fil
   $scope.isPOCollapsed = true;
   $scope.pendingOperations = [];
   $scope.leavePageMessage = "";
-  $scope.showStoreModal = false;
   $scope.rejectedUploads = downloadSvc.rejectedUploads;
   $scope.isRUCollapsed = false;
 

@@ -18,7 +18,7 @@ describe("ModalWindowController", function() {
 
   beforeEach(inject(function($controller) {
     ModalWindowController = $controller("ModalWindowController"
-                                       ,{$scope: scope});
+                                       ,{$scope: scope, FileListService: {}, SpinnerService: {}});
   }));
 
   it("should be defined", function() {
