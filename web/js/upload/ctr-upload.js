@@ -7,6 +7,7 @@ angular.module("risevision.storage.upload")
 function ($scope, $rootScope, $stateParams, uploader, uriSvc, filesSvc, $translate, chunkSize) {
   $scope.uploader = uploader;
   $scope.status = {};
+  $scope.completed = [];
 
   $scope.removeItem = function(item) {
     uploader.cancelItem(item);
@@ -73,15 +74,27 @@ function ($scope, $rootScope, $stateParams, uploader, uriSvc, filesSvc, $transla
   };
 
   uploader.onCompleteItem = function(item) {
-    if (item.isCancel) {return;}
+    if (item.isSuccess) {
+      $scope.completed.push(item.file.name);
+    }
 
-    if (!item.isSuccess){
+    if($scope.activeUploadCount() === 0) {
+      uriSvc.notifyGCMTargetsChanged($scope.completed).then(function(resp) {
+        console.log("uriSvc.notifyGCMTargetsChanged", resp);
+        $scope.completed = [];
+      });
+    }
+
+    if (item.isCancel) {
+      return;
+    }
+    else if (!item.isSuccess) {
       $translate("storage-client.upload-failed").then(function(msg) {
         $scope.status.message = msg;
       });
       return;
     }
-
+    
     var file = {
       "name": item.file.name,
       "updated": {"value": new Date().valueOf().toString()},

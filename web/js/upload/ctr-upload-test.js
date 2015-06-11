@@ -54,6 +54,13 @@ describe("UploadController", function() {
                 };
               }
             };
+          },
+          notifyGCMTargetsChanged: function() {
+            return {
+              then: function(cb) {
+                cb();
+              }
+            };
           }
         };
 

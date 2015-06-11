@@ -59,5 +59,9 @@ $translate([uriFailed, uriFailedMail, inactiveSubscription, verifyCompany, acces
     });
   };
 
+  svc.notifyGCMTargetsChanged = function(files) {
+    return gapiRequestor.executeRequest("storage.notifyGCMTargetsChanged", { companyId: $stateParams.companyId, targets: files });
+  };
+
   return svc;
 }]);
