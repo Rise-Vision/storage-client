@@ -11,7 +11,8 @@ module.exports = function(driver, LOCALCLIENT, LOCALSERVER, USER, PASSWORD) {
   passwordLocator = {"id": "Passwd"},
   googleSignInLocator = {"id": "signIn"},
   localApproveLocator = {"id": "submit_approve_access"},
-  anyFolderLocator = {"css": "span.folder.ng-binding"};
+  anyFolderLocator = {"css": "span.folder.ng-binding"},
+  approveAccessLocator = {"id": "submit_approve_access"};
 
   if (LOCALSERVER) {
     driver.get("localhost:8888/_ah/login");
@@ -37,6 +38,11 @@ module.exports = function(driver, LOCALCLIENT, LOCALSERVER, USER, PASSWORD) {
   driver.findElement(emailLocator).sendKeys(USER);
   driver.findElement(passwordLocator).sendKeys(PASSWORD);
   driver.findElement(googleSignInLocator).click();
+
+  driver.sleep(3000);
+  if(driver.findElements(approveAccessLocator).length > 0) {
+    driver.findElement(approveAccessLocator).click();
+  }
 
   if (LOCALCLIENT) {
     driver.wait(until.elementLocated(localApproveLocator), 4000, "approve");
