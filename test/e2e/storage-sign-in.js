@@ -8,10 +8,12 @@ module.exports = function(driver, LOCALCLIENT, LOCALSERVER, USER, PASSWORD) {
   spinnerLocator = {"css": "div.spinner-backdrop"},
   spinner,
   emailLocator = {"id": "Email"},
+  nextLocator = {"id": "next"},
   passwordLocator = {"id": "Passwd"},
   googleSignInLocator = {"id": "signIn"},
   localApproveLocator = {"id": "submit_approve_access"},
-  anyFolderLocator = {"css": "span.folder.ng-binding"};
+  anyFolderLocator = {"css": "span.folder.ng-binding"},
+  approveAccessLocator = {"id": "submit_approve_access"};
 
   if (LOCALSERVER) {
     driver.get("localhost:8888/_ah/login");
@@ -33,10 +35,17 @@ module.exports = function(driver, LOCALCLIENT, LOCALSERVER, USER, PASSWORD) {
   driver.findElement(signInLocator).click();
 
   driver.wait(until.elementLocated(emailLocator), 2000, "wait for email field");
-  driver.sleep(500);
+  driver.sleep(1000);
   driver.findElement(emailLocator).sendKeys(USER);
+  driver.findElement(nextLocator).click();
+  driver.wait(until.elementLocated(passwordLocator), 2000, "wait for password field");
   driver.findElement(passwordLocator).sendKeys(PASSWORD);
   driver.findElement(googleSignInLocator).click();
+
+  driver.sleep(3000);
+  if(driver.findElements(approveAccessLocator).length > 0) {
+    driver.findElement(approveAccessLocator).click();
+  }
 
   if (LOCALCLIENT) {
     driver.wait(until.elementLocated(localApproveLocator), 4000, "approve");
