@@ -233,7 +233,7 @@ function ($scope, $stateParams, $modal, $log, $location, listSvc,
           var bottomMargin = SELECTOR_TYPE === "multiple-file" ? 90 : 110;
 
           element.height($(window).height() - $(".modal-header").height() - $(".modal-footer").height() - bottomMargin);
-          element.addClass("auto-height");
+          element.addClass("scrollable-list");
         });
 
         $(window).trigger("resize");        
