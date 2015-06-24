@@ -113,9 +113,9 @@
   <body>
     <div ng-controller="ModalWindowController">
       <div class="storage-modal" ng-if="!FULLSCREEN">
-        <div class="modal-content" ng-controller="modalContainerController" ng-click="closeThrottleNotice()">
+        <div ng-controller="modalContainerController" ng-click="closeThrottleNotice()">
           <div ng-controller="TopButtonsController">
-            <div class="modal-header" style="margin-bottom: 10px">
+            <div>
               <button type="button" class="close" data-dismiss="modal" ng-click="closeButtonClick()">
                 <i class="fa fa-times"></i>
               </button>
@@ -126,19 +126,20 @@
                      ng-model="subscriptionStatus.result" show-store-modal="showStoreModal" expanded-format="true">
                 </div>
               </div>
-              <h3 class="modal-title" update-title="" translate="storage-client.select-{{SELECTOR_TYPE}}"></h3>
+              <h3 update-title="" translate="storage-client.select-{{SELECTOR_TYPE}}"></h3>
               <div class="selector-header">
+
                 <div class="icon-nav pull-right" ng-hide="activeSearch || trialAvailable">
-                  <button class="btn btn-link btn-lg" ng-hide="statusDetails.code!==200 || fileListStatus.code===404" ng-click="newFolderButtonClick('md')" ng-disabled="isTrashFolder()">
+                  <button class="btn btn-link" ng-hide="statusDetails.code!==200 || fileListStatus.code===404" ng-click="newFolderButtonClick('md')" ng-disabled="isTrashFolder()">
                     <svg-icon p="iconNewFolder"></svg-icon>
                   </button>
-                  <label for="upload-files" style="padding-top: 9px;" class="btn btn-link btn-lg"
+                  <label for="upload-files" class="btn btn-link"
                          ng-hide="statusDetails.code!==200 || fileListStatus.code===404 || singleFolderSelector"
                          ng-disabled="!(filesDetails.localFiles === false && !isTrashFolder())">
-                    <span class="fa fa-cloud-upload fa-lg"></span>
+                    <i class="fa fa-cloud-upload"></i>
                   </label>
-                  <button class="btn btn-link btn-lg" ng-click="showSelectorFileSearch()">
-                    <span class="fa fa-search fa-lg"></span>
+                  <button class="btn btn-link" ng-click="showSelectorFileSearch()">
+                    <i class="fa fa-search"></i>
                   </button>
                 </div>
         
@@ -148,7 +149,7 @@
                 </div>
         
                 <div class="icon-nav ng-hide" ng-show="activeSearch && !trialAvailable">
-                  <div class="input-group custom-addon">
+                  <div class="input-group">
                     <input id="selectorQuery" ng-model="query" type="text" class="form-control" placeholder="Search files or folders">
                     <span ng-click="hideSelectorFileSearch()" class="input-group-addon clickable"><i class="fa fa-times"></i></span>
                   </div>
@@ -164,12 +165,12 @@
             </div>
             
             <!--Body content-->
-            <div class="modal-body" ui-view ng-show="!trialAvailable"></div>
-            <div class="modal-body" ng-show="trialAvailable">
+            <div ui-view ng-show="!trialAvailable"></div>
+            <div ng-show="trialAvailable">
               <ng-include src="'partials/start-trial.html'" ng-show="trialAvailable"></ng-include>
             </div>
       
-            <div class="modal-footer" ng-controller="FilesButtonsController" ng-show="multipleFileSelector && !trialAvailable">
+            <div ng-controller="FilesButtonsController" ng-show="multipleFileSelector && !trialAvailable">
               <button type="button" title="select" class="btn btn-primary" ng-click="selectButtonClick()" ng-disabled="filesDetails.checkedCount < 1 && filesDetails.folderCheckedCount < 1">
                 <span translate="common.select"></span> <span class="fa fa-check icon-right"></span>
               </button>
