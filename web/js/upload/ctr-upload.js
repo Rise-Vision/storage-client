@@ -41,8 +41,10 @@ function ($scope, $rootScope, $stateParams, uploader, uriSvc, filesSvc, $transla
 
   uploader.onAfterAddingFile = function(fileItem) {
     console.info("onAfterAddingFile", fileItem.file.name);
-    fileItem.file.name = decodeURIComponent($stateParams.folderPath || "") +
-                         fileItem.file.name;
+
+    if(!fileItem.isRetrying) {
+      fileItem.file.name = decodeURIComponent($stateParams.folderPath || "") + fileItem.file.name;
+    }
 
     $translate("storage-client.uploading", { filename: fileItem.file.name }).then(function(msg) {
       $scope.status.message = msg;

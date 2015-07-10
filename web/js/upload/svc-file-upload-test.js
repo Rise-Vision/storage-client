@@ -34,24 +34,24 @@ describe("Services: FileUploader", function() {
   });
 
   it("should add two regular files to the queue", function (done) {
-  	var uploader = getUploadService();
+    var uploader = getUploadService();
 
-	uploader.addToQueue([{ name: "test1.txt", size: 200, type: "text" }]);
-	expect(uploader.queue.length).to.equal(1);
-	expect(uploader.queue[0].file.name).to.equal("test1.txt");
-	uploader.addToQueue([{ name: "test2.txt", size: 200, type: "text" }]);
-	expect(uploader.queue.length).to.equal(2);
+    uploader.addToQueue([{ name: "test1.txt", size: 200, type: "text" }]);
+    expect(uploader.queue.length).to.equal(1);
+    expect(uploader.queue[0].file.name).to.equal("test1.txt");
+    uploader.addToQueue([{ name: "test2.txt", size: 200, type: "text" }]);
+    expect(uploader.queue.length).to.equal(2);
 
-	done();
+    done();
   });
 
-  it("should one file inside a folder to the queue", function (done) {
-  	var uploader = getUploadService();
+  it("should add one file inside a folder to the queue", function (done) {
+    var uploader = getUploadService();
 
-	uploader.addToQueue([{ name: "test1.txt", webkitRelativePath: "folder/test1.txt", size: 200, type: "text" }]);
-	expect(uploader.queue.length).to.equal(1);
-	expect(uploader.queue[0].file.name).to.equal("folder/test1.txt");
+    uploader.addToQueue([{ name: "test1.txt", webkitRelativePath: "folder/test1.txt", size: 200, type: "text" }]);
+    expect(uploader.queue.length).to.equal(1);
+    expect(uploader.queue[0].file.name).to.equal("folder/test1.txt");
 
-	done();
+    done();
   });
 });
