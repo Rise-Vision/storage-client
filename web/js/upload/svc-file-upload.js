@@ -96,6 +96,7 @@ angular.module("risevision.storage.upload")
       item.isSuccess = false;
       item.isCancel = false;
       item.isError = false;
+      item.isRetrying = true;
       item.progress = 0;
 
       svc.onAfterAddingFile(item);

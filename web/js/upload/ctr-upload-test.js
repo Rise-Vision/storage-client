@@ -10,6 +10,8 @@ describe("UploadController", function() {
     beforeEach(module("risevision.storage.upload"));
 
     beforeEach(function() {
+      $stateParams.folderPath = "";
+
       module(function($provide) {
         $provide.factory("XHRFactory", function() {
           return {
@@ -146,5 +148,33 @@ describe("UploadController", function() {
 
         expect(onCompleteItem.called).to.be.true;
         expect(args[0].isSuccess).to.be.true;
+    });
+
+    it("should add current path to the name if the file is just being", function() {
+      var fileName = "test1.jpg";
+      var file1 = { name: fileName, size: 200, slice: function() {}, file: { name: fileName } };
+      var getURI = sinon.spy(UploadURIService, "getURI");
+      
+      $stateParams.folderPath = "test/";
+      FileUploader.onAfterAddingFile(file1);
+      
+      var args = getURI.getCall(0).args;
+      
+      expect(getURI.called).to.be.true;
+      expect(args[0].name).to.be.equal("test/test1.jpg");
+    });
+
+    it("should not modify the name if the file is being retried", function() {
+      var fileName = "test/test1.jpg";
+      var file1 = { name: fileName, size: 200, slice: function() {}, isRetrying: true, file: { name: fileName } };
+      var getURI = sinon.spy(UploadURIService, "getURI");
+      
+      $stateParams.folderPath = "test/";
+      FileUploader.onAfterAddingFile(file1);
+      
+      var args = getURI.getCall(0).args;
+      
+      expect(getURI.called).to.be.true;
+      expect(args[0].name).to.be.equal("test/test1.jpg");
     });
 });
