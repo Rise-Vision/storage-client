@@ -10,7 +10,7 @@
     "q": "~1.0.1",
     "underscore": "1.7.0",
     "rv-common-style": "https://github.com/Rise-Vision/common-style.git#v1.2.9",
-    "rv-common-header": "https://github.com/Rise-Vision/common-header.git#v1.4.7",
+    "rv-common-header": "https://github.com/Rise-Vision/common-header.git#v1.5.0",
     "rv-common-svg": "https://github.com/Rise-Vision/common-svg.git",
     "rv-subscription-status": "https://github.com/Rise-Vision/component-subscription-status.git#master",
     "rv-common-i18n": "https://github.com/Rise-Vision/common-i18n.git#master",
