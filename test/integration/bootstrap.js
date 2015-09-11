@@ -5,7 +5,7 @@ var webdriver = require("selenium-webdriver"),
     UNCAUGHT_EXCEPTION = webdriver.promise.ControlFlow.EventType.UNCAUGHT_EXCEPTION;
 
 var driver = new webdriver.Builder()
-  .forBrowser("phantomjs")
+  .forBrowser("chrome")
   .build();
 
 var helpers = require("../e2e/bootstrap-helpers.js")(driver);
