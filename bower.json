@@ -9,7 +9,7 @@
     "jQuery": "~1.11.1",
     "q": "~1.0.1",
     "underscore": "1.7.0",
-    "rv-common-style": "https://github.com/Rise-Vision/common-style.git#v1.3.8",
+    "rv-common-style": "https://github.com/Rise-Vision/common-style.git#v1.3.9",
     "rv-common-header": "https://github.com/Rise-Vision/common-header.git#v1.5.3",
     "rv-common-svg": "https://github.com/Rise-Vision/common-svg.git",
     "rv-subscription-status": "https://github.com/Rise-Vision/component-subscription-status.git#master",
