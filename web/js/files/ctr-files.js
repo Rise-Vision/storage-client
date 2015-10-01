@@ -225,20 +225,4 @@ function ($scope, $stateParams, $modal, $log, $location, listSvc,
     }
   });
 }])
-.directive("autoSizeFileList", ["SELECTOR_TYPE", function (SELECTOR_TYPE) {
-  return {
-    link: function($scope, element) {
-      if(SELECTOR_TYPE) {
-        $(window).resize(function() {
-          var bottomMargin = SELECTOR_TYPE === "multiple-file" ? 90 : 110;
-
-          element.height($(window).height() - $(".modal-header").height() - $(".modal-footer").height() - bottomMargin);
-          element.addClass("scrollable-list");
-        });
-
-        $(window).trigger("resize");        
-      }
-    }
-  };
-}])
 ;
