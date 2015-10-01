@@ -211,7 +211,7 @@
             </div>
           </div>
           
-          <div class="storage-modal" ng-show="userSignedIn && !trialAvailable">
+          <div ng-show="userSignedIn && !trialAvailable">
             <div class="container" ng-controller="modalContainerController" ng-click="closeThrottleNotice()">
               <ng-include src="'partials/header-fullscreen.html'"></ng-include>
               <div ui-view></div>
