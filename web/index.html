@@ -112,7 +112,7 @@
 
   <body>
     <div ng-controller="ModalWindowController">
-      <div class="storage-modal" ng-if="!FULLSCREEN">
+      <div id="storage-content" class="storage-modal" ng-if="!FULLSCREEN">
         <div ng-controller="modalContainerController" ng-click="closeThrottleNotice()">
           <div ng-controller="TopButtonsController">
             <div>
@@ -211,7 +211,7 @@
             </div>
           </div>
           
-          <div class="storage-modal" ng-show="userSignedIn && !trialAvailable">
+          <div id="storage-content" ng-show="userSignedIn && !trialAvailable">
             <div class="container" ng-controller="modalContainerController" ng-click="closeThrottleNotice()">
               <ng-include src="'partials/header-fullscreen.html'"></ng-include>
               <div ui-view></div>

@@ -6,7 +6,7 @@ function verifyFullscreenValue(expectedValue) {
   var angular = window.angular ||
                 document.querySelector("iframe").contentWindow.angular;
 
-  return angular.element("div.storage-modal").injector().invoke(["FULLSCREEN",
+  return angular.element("#storage-content").injector().invoke(["FULLSCREEN",
     function(FULLSCREEN) {
       return FULLSCREEN === expectedValue;
     }
