@@ -5,7 +5,7 @@
     </button>
     <h2 class="modal-title">{{'storage-client.new-folder' | translate}}</h2>
   </div>
-  <div class="modal-body" autofocus="autofocus">
+  <div class="modal-body" stop-event="touchend" autofocus="autofocus">
     <div class="form-group">
       <input id="newFolderInput" type="text" class="form-control" ng-model="folderName" focus-me="{{shouldBeOpen}}" placeholder="Enter Folder Name" ng-focus="duplicateFolderSpecified=false" autofocus="autofocus">
       <br>
