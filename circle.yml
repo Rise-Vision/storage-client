@@ -13,8 +13,23 @@ deployment:
     commands:
       - NODE_ENV=stage npm run ci-build && [ -d dist ]
       - npm run integration
+
+      - echo $CI_PULL_REQUEST
+      # We have mutiple stage environments, storage-stage-0.risevision.com, storage-stage-1.risevision.com ...
+      # To deploy to one of these environments a tag must be added to the commit message. For instance, [stage-0] for storage-stage-0.risevision.com.
+      # The build will fail if the tag is not added.
+      # If tag is missing, the [stage-0] is used.
       - ssh storage@webserver-stage.risevision.com 'mkdir -p /rise-front-end/storage';
-      - rsync -rptz -e ssh --delete dist storage@storage-stage.risevision.com:/rise-front-end/storage/$(echo -n $CIRCLE_BRANCH |sed 's/\//-/g')
+      - >
+        STAGE_ENV="$(git log -1 --pretty=%B | grep '\[.*\]' |sed -e 's/.*\[\(.*\)\].*/\1/g')";
+        if [ "$STAGE_ENV" != '' ]; then
+          echo "Deploying to $STAGE_ENV";
+        fi;
+        if [ "$STAGE_ENV" == '' ]; then
+          echo "stage deployment environment missing. Deploying to [stage-0].";
+          STAGE_ENV='stage-0';
+        fi;
+        rsync -rptz -e ssh --delete dist storage@webserver-stage.risevision.com:/rise-front-end/storage/$STAGE_ENV;
       - tar czvf dist.tar.gz dist
   production:
     branch: master
