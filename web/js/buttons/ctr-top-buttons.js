@@ -4,10 +4,8 @@ angular.module("risevision.storage.buttons.top", [])
 .controller("TopButtonsController",
 ["$scope", "$rootScope", "$stateParams", "$window", "$modal", "$log", "$timeout", "$filter", "FileListService",
 "GAPIRequestService", "STORAGE_FILE_URL", "DownloadService", "$q", "$translate", "$state", "FULLSCREEN", 
-  "PublicReadService", 
 function ($scope,$rootScope, $stateParams, $window, $modal, $log, $timeout, $filter, listSvc, requestSvc,
-          STORAGE_FILE_URL, downloadSvc, $q, $translate, $state, FULLSCREEN,
-          publicReadSvc) {
+          STORAGE_FILE_URL, downloadSvc, $q, $translate, $state, FULLSCREEN) {
   $scope.storageFull = FULLSCREEN;
   $scope.showCloseButton = !$scope.storageFull;
 
@@ -15,8 +13,6 @@ function ($scope,$rootScope, $stateParams, $window, $modal, $log, $timeout, $fil
   $scope.fileListStatus = listSvc.statusDetails;
   $scope.statusDetails = { code: 200, message: "" };
   $scope.leavePageMessage = "";
-
-  publicReadSvc.enablePublicRead($stateParams.companyId);
 
   $scope.isTrashFolder = function() {
     return $scope.fileListStatus.folder && $scope.fileListStatus.folder.indexOf("--TRASH--/") === 0;

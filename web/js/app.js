@@ -17,7 +17,6 @@ angular.module("risevision.storage", [
   "risevision.storage.filters",
   "risevision.storage.files",
   "risevision.storage.fullscreen",
-  "risevision.storage.publicread",
   "risevision.storage.services",
   "risevision.storage.subscription",
   "risevision.storage.throttle",
