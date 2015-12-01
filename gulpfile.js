@@ -87,8 +87,6 @@ var env = process.env.NODE_ENV || "dev",
       "web/js/files/ctr-files.js",
       "web/js/files/ctr-new-folder.js",
       "web/js/subscription/ctr-subscription.js",
-      "web/js/publicread/svc-public-read.js",
-      "web/js/publicread/ctr-public-read.js",
       "web/js/app.js",
 
       "web/js/**/*-test.js"
