@@ -5,6 +5,12 @@ describe("Services: FileUploader", function() {
 
   beforeEach(module("risevision.storage.upload"));
 
+  beforeEach(module(function ($provide) {
+    $provide.service("$q", function() {
+      return Q;
+    });
+  }));
+  
   beforeEach(function() {
   	inject(function($injector) {
       var $httpBackend = $injector.get("$httpBackend");
@@ -18,7 +24,9 @@ describe("Services: FileUploader", function() {
       uploader = FileUploader;
     }]);
 
-    uploader.onAfterAddingFile = function() {};
+    uploader.onAfterAddingFile = function() {
+      return Q.resolve();
+    };
     uploader.onBeforeUploadItem = function() {};
     uploader.onCancelItem = function() {};
     uploader.onCompleteItem = function() {};
@@ -53,5 +61,23 @@ describe("Services: FileUploader", function() {
     expect(uploader.queue[0].file.name).to.equal("folder/test1.txt");
 
     done();
+  });
+  
+  it("multiple files should be enqueued asynchronously after the first", function (done) {
+    var uploader = getUploadService();
+
+    uploader.addToQueue([{ name: "test1.txt", webkitRelativePath: "folder/test1.txt", size: 200, type: "text" },
+      { name: "test2.txt", webkitRelativePath: "folder/test2.txt", size: 200, type: "text" },
+      { name: "test3.txt", webkitRelativePath: "folder/test3.txt", size: 200, type: "text" }]);
+
+    expect(uploader.queue.length).to.equal(1);
+    expect(uploader.queue[0].file.name).to.equal("folder/test1.txt");
+    
+    setTimeout(function() {
+      expect(uploader.queue.length).to.equal(3);
+      expect(uploader.queue[1].file.name).to.equal("folder/test2.txt");
+
+      done();      
+    }, 10);
   });
 });

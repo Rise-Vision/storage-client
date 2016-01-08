@@ -2,9 +2,9 @@
 
 angular.module("risevision.storage.upload")
 .controller("UploadController",
-["$scope", "$rootScope", "$stateParams", "FileUploader", "UploadURIService", "FileListService", 
+["$scope", "$rootScope", "$q", "$stateParams", "FileUploader", "UploadURIService", "FileListService", 
  "$translate", "STORAGE_UPLOAD_CHUNK_SIZE",
-function ($scope, $rootScope, $stateParams, uploader, uriSvc, filesSvc, $translate, chunkSize) {
+function ($scope, $rootScope, $q, $stateParams, uploader, uriSvc, filesSvc, $translate, chunkSize) {
   $scope.uploader = uploader;
   $scope.status = {};
   $scope.completed = [];
@@ -40,6 +40,8 @@ function ($scope, $rootScope, $stateParams, uploader, uriSvc, filesSvc, $transla
   };
 
   uploader.onAfterAddingFile = function(fileItem) {
+    var deferred = $q.defer();
+    
     console.info("onAfterAddingFile", fileItem.file.name);
 
     if(!fileItem.isRetrying) {
@@ -62,7 +64,12 @@ function ($scope, $rootScope, $stateParams, uploader, uriSvc, filesSvc, $transla
       console.log("getURI error", resp);
       $scope.uploader.notifyErrorItem(fileItem);
       $scope.status.message = resp;
+    })
+    .finally(function () {
+      deferred.resolve();
     });
+    
+    return deferred.promise;
   };
 
   uploader.onBeforeUploadItem = function(item) {
@@ -116,9 +123,9 @@ function ($scope, $rootScope, $stateParams, uploader, uriSvc, filesSvc, $transla
       var uploader = scope.$eval(attributes.uploader);
 
       element.bind("change", function() {
-        uploader.addToQueue(this.files);
-
-        element.prop("value", null);
+        uploader.addToQueue(this.files).then(function() {
+          element.prop("value", null);          
+        });
       });
     }
   };

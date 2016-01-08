@@ -8,8 +8,8 @@ angular.module("risevision.storage.upload")
     }
   };
 }])
-.factory("FileUploader", ["$rootScope", "XHRFactory",
-  function($rootScope, XHRFactory) {
+.factory("FileUploader", ["$rootScope", "$q", "XHRFactory",
+  function($rootScope, $q, XHRFactory) {
     var svc = {};
 
     svc.url = "/";
@@ -23,21 +23,43 @@ angular.module("risevision.storage.upload")
     svc.withCredentials = false;
     svc.isUploading = false;
     svc.nextIndex = 0;
-
+    
     svc.addToQueue = function(files, options) {
-      angular.forEach(files, function(file) {
-      	// Checks it's a file and queue size is not exceeded
+      var deferred = $q.defer();
+      var counter = 0;
+
+      var enqueue = function(file) {
+        var deferred = $q.defer();
+
+        // Checks it's a file and queue size is not exceeded
         if ((file.size || file.type) && svc.queue.length < svc.queueLimit) {
           var fileItem = new FileItem(svc, file, options);
           svc.queue.push(fileItem);
-          svc.onAfterAddingFile(fileItem);
+          svc.onAfterAddingFile(fileItem).then(deferred.resolve);
         } else {
           console.log("File not added to queue: ", file);
+          
+          deferred.resolve();
         }
-      }, svc);
+
+        return deferred.promise;
+      };
       
-      svc.progress = svc.getTotalProgress();
-      svc.render();
+      if (counter < files.length) {
+        enqueue(files[counter++])
+        .then(function() {
+          for ( ; counter < files.length; counter++) {
+            enqueue(files[counter]);
+          }
+
+          svc.progress = svc.getTotalProgress();
+          svc.render();
+          
+          deferred.resolve();          
+        });
+      }
+      
+      return deferred.promise;
     };
 
     svc.removeFromQueue = function(value) {
