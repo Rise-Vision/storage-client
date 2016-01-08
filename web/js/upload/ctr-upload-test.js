@@ -13,6 +13,10 @@ describe("UploadController", function() {
       $stateParams.folderPath = "";
 
       module(function($provide) {
+        $provide.service("$q", function() {
+          return Q;
+        });
+        
         $provide.factory("XHRFactory", function() {
           return {
             get: function() {
@@ -45,17 +49,11 @@ describe("UploadController", function() {
 
         UploadURIService = {
           getURI: function(file) {
-            return {
-              then: function(cb) {
-                cb(file.name);
-
-                return {
-                  then: function(ignore, cb) {
-                    cb();
-                  }
-                };
-              }
-            };
+            var deferred = Q.defer();
+            
+            deferred.resolve(file.name);
+            
+            return deferred.promise;
           },
           notifyGCMTargetsChanged: function() {
             return {
@@ -92,7 +90,7 @@ describe("UploadController", function() {
         scope = $rootScope.$new();
 
         UploadController = $controller("UploadController", {
-            $scope: scope, $rootScope: $rootScope, $stateParams: $stateParams,
+            $scope: scope, $rootScope: $rootScope, $q: Q, $stateParams: $stateParams,
             FileUploader: FileUploader, UploadURIService: UploadURIService,
             FileListService: FileListService, 
             $translate: $translate, STORAGE_UPLOAD_CHUNK_SIZE: 1024 });
@@ -111,6 +109,14 @@ describe("UploadController", function() {
 
         expect(UploadURIService.getURI).to.exist;
     });
+    
+    it("Uploader onAfterAddingFile should return a promise", function() {
+      var file1 = { name: "test1.jpg", size: 200, slice: function() {} };
+      var fileItem = { file: file1 };
+
+      expect(FileUploader.onAfterAddingFile(fileItem).then).to.exist;
+      expect(FileUploader.onAfterAddingFile(fileItem).then).to.be.a.function;
+    });
 
     it("should invoke onBeforeUploadItem", function() {
         var file1 = { name: "test1.jpg", size: 200, slice: function() {} };
@@ -119,7 +125,9 @@ describe("UploadController", function() {
         FileUploader.onBeforeUploadItem = onBeforeUploadItem;
         FileUploader.addToQueue([ file1 ]);
 
-        expect(onBeforeUploadItem.called).to.be.true;
+        setTimeout(function() {
+          expect(onBeforeUploadItem.called).to.be.true;          
+        }, 10);
     });
 
     it("should upload to the correct folder", function() {
@@ -133,9 +141,11 @@ describe("UploadController", function() {
         FileUploader.onBeforeUploadItem = onBeforeUploadItem;
         FileUploader.addToQueue([ file1 ]);
 
-        expect(onBeforeUploadItem.called).to.be.true;
-        expect(file1.name).to.equal("test1.jpg");
-        expect(onAfterAddingFile.getCall(0).args[0].file.name).to.equal("test-folder/test1.jpg");
+        setTimeout(function() {
+          expect(onBeforeUploadItem.called).to.be.true;
+          expect(file1.name).to.equal("test1.jpg");
+          expect(onAfterAddingFile.getCall(0).args[0].file.name).to.equal("test-folder/test1.jpg");
+        }, 10);
     });
 
     it("should invoke onCompleteItem", function() {
@@ -144,10 +154,12 @@ describe("UploadController", function() {
 
         FileUploader.addToQueue([ file1 ]);
 
-        var args = onCompleteItem.getCall(0).args;
+        setTimeout(function() {
+          var args = onCompleteItem.getCall(0).args;
 
-        expect(onCompleteItem.called).to.be.true;
-        expect(args[0].isSuccess).to.be.true;
+          expect(onCompleteItem.called).to.be.true;
+          expect(args[0].isSuccess).to.be.true;
+        }, 10);
     });
 
     it("should add current path to the name if the file is just being", function() {
