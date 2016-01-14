@@ -25,7 +25,7 @@
   <span translate="storage-client.not-authorized"></span>
 </div>
 <div id="cookieTester" ng-controller="cookieTesterController as cookieController">
-  <div class="alert alert-danger" ng-show="cookieController.status.passed === false">
+  <div class="alert alert-danger" ng-hide="true">
       {{cookieController.status.message}}
   </div>
   <div ng-hide="!cookieController.status.passed">
