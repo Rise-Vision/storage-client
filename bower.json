@@ -12,7 +12,7 @@
     "rv-common-style": "https://github.com/Rise-Vision/common-style.git#1.3.48",
     "rv-common-header": "https://github.com/Rise-Vision/common-header.git#v1.9.0",
     "rv-common-svg": "https://github.com/Rise-Vision/common-svg.git",
-    "rv-subscription-status": "https://github.com/Rise-Vision/component-subscription-status.git#fix/account-page",
+    "rv-subscription-status": "https://github.com/Rise-Vision/component-subscription-status.git#master",
     "rv-common-i18n": "https://github.com/Rise-Vision/common-i18n.git#master",
     "rv-widget-settings-ui-core": "https://github.com/Rise-Vision/widget-settings-ui-core.git",
     "angular-ui-router": "0.2.13",
